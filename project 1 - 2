@@ -1,0 +1,83 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Oct 25 09:51:17 2021
+
+@author: sanderharbo
+"""
+
+class Quiz:
+
+    def __init__(self, question, correct_answer, answerlist):
+        self.question = question
+        self.answerlist = answerlist
+        self.correct_answer = correct_answer
+
+    def check_if_correct(self, answer):
+        if answer == self.correct_answer:
+            return True
+        return False
+
+    def __str__(self):
+        string = self.question + "\n"
+        for i in range(len(self.answerlist)):
+            string += "Answer "+str(i)+": " + self.answerlist[i] + "\n"
+        return string
+    
+    def korrekt_svar_tekst(self):
+        correct_answer = self.answerlist[int(self.correct_answer)]
+        return correct_answer
+    
+    
+def questions():
+
+    with open ("sporsmaalsfil.txt", "r", encoding = "UTF8") as file: 
+        quiz_list = list()
+        for line in file:
+            line = line.split(":")
+            question = line[0]
+            correct_answer = line[1].strip()
+            answerlist = line[2]
+            answerlist = answerlist[1:-2].split(",")           
+            quiz = Quiz(question, correct_answer, answerlist)
+            quiz_list.append(quiz)
+        return (quiz_list)
+    
+if __name__ == "__main__":
+    questions = list(questions())
+    Spiller_1 = int("0")
+    Spiller_2 = int("0")
+    for question in questions:
+        print(question)
+        Player1 = input("Spiller 1, skriv inn ditt svar: ")
+        Player2 = input("Spiller 2, skriv inn ditt svar: ")
+        korrekt_svar = question.korrekt_svar_tekst()
+        print("\n", "\briktig svar er: ",korrekt_svar, "\n")
+        answer1 = question.check_if_correct(Player1)
+        answer2 = question.check_if_correct(Player2) 
+        if answer1 == True:
+            Spiller_1 += 1
+            print("Spiller 1: Korrekt")
+        else:
+            print("Spiller 1: Feil ")
+            
+        if answer2 ==True:
+            Spiller_2 += 1
+            print("Spiller 2: Korrekt")
+        else:
+            print("Spiller 2: Feil ")
+        print ("\n")
+        
+    print("Spiller 1: ", Spiller_1, "korrekte svar")
+    print("Spiller 2: ", Spiller_2, "korrekte svar")
+                    
+            
+
+
+
+
+
+
+
+
+
